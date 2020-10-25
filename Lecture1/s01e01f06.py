@@ -26,7 +26,7 @@
 # Napoleon wars the user was born.
 #
 # Did you know that the oldest man, Gustav Gerneth, born in 1906,
-# was born closer to Napoleon wars than to the year 2019?
+# was born closer to Napoleon wars than to the year 2020?
 
 ### Ad 2.
 # Rewrite your program using as few LOC (lines of code) as possible.
