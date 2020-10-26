@@ -146,7 +146,7 @@ for line in range(0, height):
 # reminder only by itself or 1.
 # Examples of prime numbers: 2, 3, 5, ..., 79.
 
-# Hot to check if a number x is prime?
+# How to check if a number x is prime?
 # One solution is to loop over numbers from 2 to x-1 and check if x
 # can be divided without a reminder by any of them.
 

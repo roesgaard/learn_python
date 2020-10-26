@@ -1,5 +1,5 @@
 # to execute some code only if a condition is meet use an "if"
-cur_year = 2019
+cur_year = 2020
 print("what year were you born? (type it and press [enter])")
 bth_year_as_text = input()
 bth_year = int(bth_year_as_text)
@@ -9,19 +9,19 @@ if cur_year - bth_year > 18:
     # there can be many lines of code here under an if
     # as long as the code is indented it will be only executed if the
     # condition from "if" is meet
-    print("you are " + str(cur_year - bth_year) + " years above 18.")
+    print("you are " + str(cur_year - bth_year - 17) + " years above 18.")
 
 
 # to execute some code when our condition is not meet use an "else":
 print("----- same code now with an 'else' ------")
-cur_year = 2019
+cur_year = 2020
 print("what year were you born? (type it and press [enter])")
 bth_year_as_text = input()
 bth_year = int(bth_year_as_text)
 if cur_year - bth_year > 18:
     print("let's get a beer!")
     print("since you're 18")
-    print("you are " + str(cur_year-bth_year) + " years above 18.")
+    print("you are " + str(cur_year-bth_year - 17) + " years above 18.")
 else:
     print("no beers for you my friend!")
 
