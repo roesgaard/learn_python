@@ -9,7 +9,7 @@ if cur_year - bth_year > 18:
     # there can be many lines of code here under an if
     # as long as the code is indented it will be only executed if the
     # condition from "if" is meet
-    print("you are " + str(cur_year - bth_year) + " years above 18.")
+    print("you are " + str(cur_year - bth_year - 17) + " years above 18.")
 
 
 # to execute some code when our condition is not meet use an "else":
@@ -21,7 +21,7 @@ bth_year = int(bth_year_as_text)
 if cur_year - bth_year > 18:
     print("let's get a beer!")
     print("since you're 18")
-    print("you are " + str(cur_year-bth_year) + " years above 18.")
+    print("you are " + str(cur_year-bth_year - 17) + " years above 18.")
 else:
     print("no beers for you my friend!")
 
