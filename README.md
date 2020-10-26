@@ -5,9 +5,10 @@ To help me teach programming and python.
 
 ## Do I need to explain something to my students?
 If you're using those scripts you'll need to explain your students how to run them (e.g. in PyCharm).
+Small intro is given in installation
 
 ## What are they good for?
-If you're teaching a group of people, some understanding what a variable or function is and others have never wirtten a line of code - these scripts are a good way for the first class to make sure the newcommers have a general understanding of programming.
+If you're teaching a group of people, some understanding what a variable or function is and others have never written a line of code - these scripts are a good way for the first class to make sure the newcommers have a general understanding of programming.
 
 ## How much time?
 People with prior experience finish them in 2-3 h.
