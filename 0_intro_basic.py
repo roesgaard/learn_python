@@ -4,7 +4,7 @@ Print
 Used to print information to the console
 """
 # This is a comment
-print('HELLO WORLD')
+print("""HELLO WORLD""")
 
 """
 Advanced printing
@@ -155,7 +155,9 @@ mydict = {'dogs': 5,
 mydict['mice'] = 8
 # and queried like this:
 how_many_mice = mydict['mice']
+print(mydict['birds'])
 how_many_birds = mydict.get('birds', 0)
+print(how_many_birds)
 
 # Key-value pairs can be looped over using:
 mydict = {'dogs': 5, 'cats': 2, 'rats': 0}
@@ -185,6 +187,7 @@ for elem in [2, 4, -2, 5]:
 # lets look at something slightly more advanced:
 total_length_of_strings = 0
 for elem in ['zero', 'one', 'two', 'three']:
+    total_length_of_strings = total_length_of_strings + len(elem)
     total_length_of_strings += len(elem)
     print('string: {:7s} has length: {:3d}'.format(elem, len(elem)))
 print('total length of strings:    ', total_length_of_strings)
@@ -214,8 +217,10 @@ def my_func(arg1, arg2):
     var1 = min(10, arg1)
     var2 = min(10, arg2)
     res = var1 * var2
-    return res
-print(my_func(5,7))
+    return var1, res
+
+a,b = my_func(5,7)
+print(a, b)
 print(my_func(5, 12))
 print(my_func(15, 12))
 
@@ -248,7 +253,7 @@ boolean comparison operators. Examples are >, <, <=, etc.
 
 0 == 0, 0 <= 5 - 5, 'three' == 'Three'.lower()
 
-0 == 1, 3 == 3 - 6, 3 == 'three'
+0 != 1, 3 == 3 - 6, 3 == 'three'
 
 # membership operator: in
 'a' in 'char', 3 in (1, 2), 3 in [2, 3], 3 in {2: 'two', 3: 'three'}
@@ -281,3 +286,9 @@ print('Your input {} is {}'.format(yourstring, res))
 
 
 
+
+
+SUNDAY_NUMBER = 7
+for date in list_of_dates:
+    if weekday(date) == SUNDAY_NUMBER:
+        do_something

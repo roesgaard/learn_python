@@ -7,10 +7,11 @@ import pandas as pd
 import numpy as np
 
 # Lets create a Pandas Dataframe:
-df = pd.DataFrame({'col one': [100, 200, 300], 'col two': [300, 400, 500]})
+input_dict = {'col one': [100, 200, 300], 'col two': [300, 400, 500]}
+df = pd.DataFrame(input_dict)
 
 # Choose data from a single column (Pandas Series)
-df['col one']
+test = df['col one']
 
 # Add a new column
 df['test'] = [1, 2, 3]
@@ -19,14 +20,12 @@ df['test'] = [1, 2, 3]
 df.loc[df['test'] == 3]
 df.loc[df['test'] < 3, ['col one']]
 
-df.iloc[1, 1]
+df.iloc[2, 1]
 
 # Rename
 df = df.rename({'col one': 'col_one', 'col two': 'col_two'}, axis='columns')
 
 df.columns = ['col 1', 'col 2', 'col test']
-
-df.add_prefix('X_')
 
 # Create random data but now we name the columns
 df_random = pd.DataFrame(np.random.rand(4, 8), columns=list('abcdefgh'))
@@ -38,9 +37,9 @@ import pandas as pd
 import datetime as dt
 import matplotlib.pyplot as plt
 
-df = pd.read_excel(r'Lecture4\data\excel_data.xlsx')
+df = pd.read_excel(r'data\excel_data.xlsx')
 print(df.head())
-print(df.tail())
+print(df.tail(10))
 df_describe = df.describe(include='all')
 
 # Ad 1 - Use the function below to change the date and hour into datetime.
@@ -48,21 +47,23 @@ df_describe = df.describe(include='all')
 # This can be done using either pure matplotlib or using the build in pandas plot and histogram functions
 # (can you add more bins?)
 # Can you describe what is going on?
-
-df['DateTime'] = df.apply(lambda r: dt.datetime.combine(pd.to_datetime(r['Date'], format='%Y%m%d'),
-                                                        dt.time(int(r['Hour'])-1)), axis=1)
+df['Date'][0]
+df['Date'] = pd.to_datetime(df['Date'], format='%Y%m%d')
+df['DateTime'] = df.apply(lambda r: dt.datetime.combine(r['Date'],
+                                                        dt.time(r['Hour']-1)), axis=1)
 df = df.set_index('DateTime')
 df.drop(['Date', 'Hour'], axis=1, inplace=True)
 
 plt.figure()
-df[[col for col in df.columns if 'P_' in col]].plot()
+price_cols = [col for col in df.columns if 'P_' in col]
+df[price_cols].plot()
 plt.ylabel('Price [Euro]')
 plt.show()
 
 plt.figure()
 df[[col for col in df.columns if 'FB_' in col]].plot()
 plt.ylabel('Flow [Mwh]')
-plt.show()
+plt.show(   )
 
 plt.figure()
 df[[col for col in df.columns if 'P_' in col]].hist(bins=100)
@@ -70,16 +71,17 @@ plt.show()
 
 # Exercise 2 - Data load gone wrong. Downloaded data has been split into multiple files.
 # Build a DataFrame from multiple files.
+
 from glob import glob
-jan_files = sorted(glob(r'Lecture4/data/jan_split/jan_*.csv'))
+jan_files = sorted(glob(r'data/jan_split/jan_*.csv'))
 jan_data = pd.concat((pd.read_csv(file) for file in jan_files), axis='columns')
 jan_data = jan_data[['ValueDate', 'Hourcet', 'Cons', 'Wind', 'Solar']]
 
 # Another way could be data monthly split. Now join all data from Lecture4/data/month_split/
 # into a file with some structure as jan_data but with data from the whole year (Make sure data is ordered by date)
-all_data = sorted(glob('Lecture4/data/month_split/*.csv'))
+all_data = sorted(glob('data/month_split/*.csv'))
 all_data = pd.concat((pd.read_csv(file) for file in all_data), axis='rows')
-all_data = all_data[['ValueDate', 'Hourcet', 'Cons', 'Wind', 'Solar']].sort_values(by='ValueDate')
+all_data = all_data[['ValueDate', 'Hourcet', 'Cons', 'Wind', 'Solar']].sort_values(by=['ValueDate', 'Hourcet'])
 all_data['ValueDate'] = pd.to_datetime(all_data['ValueDate']).dt.date
 
 # Exercise 3 - Make a simple DA spot forecast. Use delta in residual load between d and d+1 to forecast spot
@@ -122,9 +124,9 @@ all_data['res_delta'] = all_data['Res'] - all_data['Res_Lagging']
 all_data = all_data.sort_values(by=['ValueDate', 'Hourcet'])
 
 
-# Ad 3 - Now make spot forecast as lagging_spot - delta_res * 1 euro/ 10000 mwh
+# Ad 3 - Now make spot forecast as lagging_spot - delta_res * 1 euro/ 1000 mwh
 # Display the result in a plot
-all_data['forecast'] = all_data['PriceMWh_Lagging'] + all_data['Res_Lagging'] / 10000
+all_data['forecast'] = all_data['PriceMWh_Lagging'] + all_data['res_delta'] / 1000
 
 all_data[['PriceMWh', 'forecast']].plot()
 plt.show()
