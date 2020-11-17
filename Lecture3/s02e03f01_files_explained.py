@@ -26,4 +26,4 @@ with open(r"file_name.csv", "rt") as file:
 
 # writing to a file
 with open(r"file_name.csv", "at") as file:
-    file.write("this is text")
+    file.write("\n this is text")
