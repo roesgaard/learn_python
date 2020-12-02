@@ -19,6 +19,8 @@ df[['col one', 'col two']]  # note the double brackets in order to select multip
 # select columns using loc and iloc
 df.loc[df['test'] == 3]
 df.loc[df['test'] < 3, ['col one']]
+df.loc[(df['test'] == 3) & (df['col one'] == 300)]  # multiple conditions (and).
+df.loc[(df['test'] == 3) | (df['col one'] == 100)]  # multiple conditions (or).
 
 # Get a single entry (could also be used for a range)
 df.iloc[1, 2]
@@ -47,7 +49,7 @@ df_describe = df.describe(include='all')  # here we add the info to a dataframe 
 
 # Ad 1 - Use the function below to change the date and hour into datetime.
 # Start by opening the datafile in excel to get an understanding of the data
-# Plot the data from columns with "P_" in one plot, "FB_" in another and make histograms of all the "P_" columns
+# Plot the data from columns with "P_" in one plot (Price), "FB_" in another (flow) and make histograms of all the "P_" columns
 # This can be done using either pure matplotlib or using the build in pandas plot and histogram functions
 # Two and two - describe what is going on to each other?
 
@@ -59,6 +61,8 @@ df['DateTime'] = df.apply(lambda r: dt.datetime.combine(r['DateTime'], dt.time(i
 # Now we can set the datetime as index
 df = df.set_index('DateTime')
 df.drop(['Date', 'Hour'], axis=1, inplace=True)  # Notice the inplace!!
+# This could also have been done with a chained command
+# df = df.set_index('DateTime').drop(['Date', 'Hour'], axis=1)
 
 # Lets plot the Price
 plt.figure()
@@ -68,11 +72,11 @@ plt.ylabel('Price [Euro]')
 plt.show()
 
 # Now do the same for the flow
-# INSERT YOUR OWN CODE
+# TODO: INSERT YOUR OWN CODE
 
 # And plot histograms of the prices (hint: pandas has a build in function)
 # (can you add more bins?)
-# INSERT YOUR OWN CODE
+# TODO: INSERT YOUR OWN CODE
 
 # Exercise 2 - Data load gone wrong. Downloaded data has been split into multiple files.
 # Build a DataFrame from multiple files.
@@ -90,17 +94,17 @@ jan_data = jan_data[['ValueDate', 'Hourcet', 'Cons', 'Wind', 'Solar']]
 # hint: look up pandas sort_values() + reset_index
 # hint: you can chain pandas commands by doing them followed by "."
 
-# INSERT YOUR OWN CODE
+# TODO: INSERT YOUR OWN CODE
 
 # Notice that the ValueDate column contains strings. Change them to date objects
-print('type(my_sincerity)', type(all_data['ValueDate'][0]))
-# INSERT YOUR OWN CODE
-print('type(my_sincerity)', type(all_data['ValueDate'][0]))
+print("type(all_data['ValueDate'])", type(all_data['ValueDate'][0]))
+# TODO: INSERT YOUR OWN CODE
+print("type(all_data['ValueDate'])", type(all_data['ValueDate'][0]))
 
 
 # Exercise 3 - Make a simple DA spot forecast. Use delta in residual load between d and d+1 to forecast spot
 # First calculate the residual load (Cons-wind-solar)
-# INSERT YOUR OWN CODE
+# TODO: INSERT YOUR OWN CODE
 
 # Ad 1 - add a spot. Use the following sql query to get the spot and merge onto all_data
 from dcfoundation.MSSQL import Pandas as dcpd
@@ -123,26 +127,26 @@ spot = dcpd.PandasDBConnectionManager.read_query_to_df(connection_marketdata,
                                                        query_str=sql_str)
 
 # Now use the pandas merge function to join all_data and spot
-# INSERT YOUR OWN CODE
+# TODO: INSERT YOUR OWN CODE
 
 # Ad 2 - add a lagging residual and lagging spot + Calculate delta residual (Res - Res_lagging)
 # Make a copy of the dataframe, shift dates 1 day ahead, rename prices and res.
 # Now merge the two dataframes on ValueDate and Hourcet.
 # hint: use pd.Timedelta()
 all_data_lagging = all_data.copy()
-# INSERT YOUR OWN CODE
+# TODO: INSERT YOUR OWN CODE
 
 
-# Ad 3 - Now make spot forecast as lagging_spot - delta_res * 1 euro/ 1000 mwh
+# Ad 3 - Now make spot forecast as lagging_spot + delta_res * 1 euro/ 1000 mwh
 # Display the result in a plot
-# INSERT YOUR OWN CODE
+# TODO: INSERT YOUR OWN CODE
 
 
 # Ad 4 - Display a histogram with the error between the forecast and the spot
-# INSERT YOUR OWN CODE
+# TODO: INSERT YOUR OWN CODE
 
 # AD 5 - Change from hourly profile to base (mean of the day)
 # Hint look into pandas group by
-# INSERT YOUR OWN CODE
+# TODO: INSERT YOUR OWN CODE
 
 # Bonus - Is there a correlation between what day og the week we have the large errors or on a specific price range?

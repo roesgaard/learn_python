@@ -19,6 +19,8 @@ df[['col one', 'col two']]  # note the double brackets in order to select multip
 # select columns using loc and iloc
 df.loc[df['test'] == 3]
 df.loc[df['test'] < 3, ['col one']]
+df.loc[(df['test'] == 3) & (df['col one'] == 300)]  # multiple conditions (and).
+df.loc[(df['test'] == 3) | (df['col one'] == 100)]  # multiple conditions (or).
 
 # Get a single entry (could also be used for a range)
 df.iloc[1, 2]
@@ -47,18 +49,24 @@ df_describe = df.describe(include='all')  # here we add the info to a dataframe 
 
 # Ad 1 - Use the function below to change the date and hour into datetime.
 # Start by opening the datafile in excel to get an understanding of the data
-# Plot the data from columns with "P_" in one plot, "FB_" in another and make histograms of all the "P_" columns
+# Plot the data from columns with "P_" in one plot (Price), "FB_" in another (flow) and make histograms of all the "P_" columns
 # This can be done using either pure matplotlib or using the build in pandas plot and histogram functions
 # Two and two - describe what is going on to each other?
 
 # First we change the date sting to a datetime timestamp - Note that we need to add axis to the apply
 df['DateTime'] = df.apply(lambda r: pd.to_datetime(r['Date'], format='%Y%m%d'), axis=1)
+
+# This could also be done using assign, and dropping the apply function since the to_datetime works on series as well:
+df = df.assign(DateTime2=lambda dataframe: pd.to_datetime(dataframe['Date'], format='%Y%m%d'))
+
 # Secondly we use datetime combine to add the timestamp and the hour as time
 df['DateTime'] = df.apply(lambda r: dt.datetime.combine(r['DateTime'], dt.time(int(r['Hour']) - 1)), axis=1)
 
 # Now we can set the datetime as index
 df = df.set_index('DateTime')
 df.drop(['Date', 'Hour'], axis=1, inplace=True)  # Notice the inplace!!
+# This could also have been done with a chained command
+# df = df.set_index('DateTime').drop(['Date', 'Hour'], axis=1)
 
 # Lets plot the Price
 plt.figure()
@@ -70,13 +78,13 @@ plt.show()
 # Now do the same for the flow
 plt.figure()
 df[[col for col in df.columns if 'FB_' in col]].plot()
-plt.ylabel('Flow [Mwh]')
+plt.ylabel('Flow [Mw]')
 plt.show()
 
 # And plot histograms of the prices (hint: pandas has a build in function)
 # (can you add more bins?)
 plt.figure()
-df[[col for col in df.columns if 'P_' in col]].hist(bins=100)
+df[price_cols].hist(bins=100)
 plt.show()
 
 
@@ -101,9 +109,9 @@ all_data = pd.concat((pd.read_csv(file) for file in all_data), axis='rows')
 all_data = all_data[['ValueDate', 'Hourcet', 'Cons', 'Wind', 'Solar']].sort_values(by=['ValueDate', 'Hourcet']).reset_index(drop=True)
 
 # Notice that the ValueDate column contains strings. Change them to date objects
-print('type(my_sincerity)', type(all_data['ValueDate'][0]))
+print("type(all_data['ValueDate'])", type(all_data['ValueDate'][0]))
 all_data['ValueDate'] = pd.to_datetime(all_data['ValueDate']).dt.date
-print('type(my_sincerity)', type(all_data['ValueDate'][0]))
+print("type(all_data['ValueDate'])", type(all_data['ValueDate'][0]))
 
 
 # Exercise 3 - Make a simple DA spot forecast. Use delta in residual load between d and d+1 to forecast spot
@@ -148,9 +156,9 @@ all_data['res_delta'] = all_data['Res'] - all_data['Res_Lagging']
 all_data = all_data.sort_values(by=['ValueDate', 'Hourcet'])
 
 
-# Ad 3 - Now make spot forecast as lagging_spot - delta_res * 1 euro/ 1000 mwh
+# Ad 3 - Now make spot forecast as lagging_spot + delta_res * 1 euro/ 1000 mwh
 # Display the result in a plot
-all_data['price_delta'] = all_data['PriceMWh_Lagging'] + all_data['res_delta'] / 1000
+all_data['forecast'] = all_data['PriceMWh_Lagging'] + all_data['res_delta'] / 1000
 
 all_data[['PriceMWh', 'forecast']].plot()
 plt.show()
@@ -162,8 +170,24 @@ plt.show()
 
 # AD 5 - Change from hourly profile to base (mean of the day)
 # Hint look into pandas group by
-base = all_data.groupby('ValueDate').mean()
-base['error'].hist(bins=100)
-plt.show()
+all_data_daily = all_data\
+    .groupby('ValueDate')\
+    .agg({'PriceMWh': 'mean',
+          'forecast': 'mean'})
 
 # Bonus - Is there a correlation between what day og the week we have the large errors or on a specific price range?
+all_data_daily[['PriceMWh', 'forecast']].plot()
+plt.show()
+
+all_data_dayofweek = all_data_daily\
+    .reset_index()\
+    .assign(fore_err=lambda df: df['forecast'] - df['PriceMWh'],
+            day=lambda df: pd.to_datetime(df['ValueDate']).dt.dayofweek + 1)\
+    .groupby('day')\
+    .agg({'fore_err': 'mean'})\
+    .reset_index()
+
+all_data_dayofweek.plot.bar(x='day', y='fore_err', rot=0)
+plt.show()
+
+
