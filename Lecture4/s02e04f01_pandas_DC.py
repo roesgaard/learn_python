@@ -107,6 +107,7 @@ print("type(all_data['ValueDate'])", type(all_data['ValueDate'][0]))
 # TODO: INSERT YOUR OWN CODE
 
 # Ad 1 - add a spot. Use the following sql query to get the spot and merge onto all_data
+# pip install --extra-index-url https://dcget.dac.local/pypi/dc-pypi/simple --trusted-host dcget.dac.local dcfoundation-MSSQL==0.3.2
 from dcfoundation.MSSQL import Pandas as dcpd
 
 sql_str = """
