@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js – The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		 Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<!--<script src="lib/js/html5shiv.js"></script>
+		<!--<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			 <!--Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Python Basics - session 3</h1>
+					<h2>Danske Commodities</h2>
+					<p>~Søren Roesgaard Nielsen</p>
+				</section>
+				<section>
+					<h2>Previously on</h2>
+					<h2>"Python Basics"</h2>
+				</section>
+				<section>
+					<h2>Exercises:</h2>
+					<p><a href="https://codingdojo.org/kata/FooBarQix/" >https://codingdojo.org/kata/FooBarQix/</a></p>
+					<p><a href="https://codingdojo.org/kata/LeapYears/" >https://codingdojo.org/kata/LeapYears/</a></p>
+					<p><a href="https://codingdojo.org/kata/Bowling/" >https://codingdojo.org/kata/Bowling/</a></p>
+					<p><a href="https://codingdojo.org/kata/DictionaryReplacer/" >https://codingdojo.org/kata/DictionaryReplacer/</a></p>
+					<p><a href="https://codingdojo.org/kata/Diamond/" >https://codingdojo.org/kata/Diamond/</a></p>
+					<p>... but first let the teacher sweat while solving: </p>
+					<a href="https://codingdojo.org/kata/RomanNumerals/" >https://codingdojo.org/kata/RomanNumerals/</a>
+				</section>
+				<section>
+					<h1>Agenda</h1>
+					<ol>
+						<li>Diamond kata review</li>
+						<li>Reading/writing files</li>
+						<li>Pip install</li>
+						<li>Reading/writing files - exercises</li>
+						<li>List comprehention - exercises</li>
+						<li>Lambda - exercises</li>
+						<li>Datetime - exercises</li>
+						<li>Matplotlib - exercises</li>
+					</ol>
+				</section>
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Files
+							### reading
+
+							```Python
+							with open("file_name.csv", "rt") as file:
+							   file_content = file.read()  # read whole file into variable
+							   
+							   print(file_content[0:50])  # print first 50 characters
+							   print(file_content.splitlines()[0])
+							   print(file_content.splitlines()[0].split(",")[0:10])
+
+							# mode
+							# "r" - Read - Default value. Opens a file for reading, error if the file does not exist
+							# "a" - Append - Opens a file for appending, creates the file if it does not exist
+							# "w" - Write - Opens a file for writing, creates the file if it does not exist
+							# "x" - Create - Creates the specified file, returns an error if the file exists
+							
+							# text/binary
+							# "t" - Text - Default value. Text mode
+							# "b" - Binary - Binary mode (e.g. images)
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Files
+							### reading line by line
+
+							```Python
+							with open(r"file_name.csv", "rt") as file:
+								line = file.readline()
+								while line:
+									print(line)
+									line = file.readline()
+
+							# .readline() return emtpy string when reaching end-of-file
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Files
+							### writing
+
+							```Python
+							with open(r"file_name.csv", "at") as file:
+								file.write("this is text")
+							```
+						</script>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Lambda
+							### also known as anonymous functions, are small, restricted functions.
+
+							```Python
+							adder = lambda x, y: x+y
+							print('adder(0,1)', adder(0, 1)) # adder(0,1) 1
+							print('adder(0,2)', adder(0, 2)) # adder(0,2) 2
+							print('adder(1,2)', adder(1, 2)) # adder(1,2) 3
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Lambda
+							### also known as anonymous functions, are small, restricted functions.
+
+
+							```Python
+							list1 = [500, 1.5, 1000, 1.198, 400, 3.13, 40000, 999, 2, 5, 17]
+							print(sorted(list1, key=lambda x: len(str(x))))
+							# [2, 5, 17, 500, 1.5, 400, 999, 1000, 3.13, 1.198, 40000]
+							```
+						</script>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Python packages</h1>
+						<p>PyPI - The Python Package Index</p>
+						<ul>
+							<li class="fragment"><a href="https://pypi.org/">https://pypi.org/</a></li>
+							<li class="fragment">website</li>
+							<li class="fragment">webservice accessed by pip.exe</li>
+							<li class="fragment">currently ~200 000 projects on pypi</li>
+							<li class="fragment">packages are hosted in form of sdist (source distribution) or wheels (precompiled)</li>
+							<li class="fragment">how to access those goodies?</li>
+						</ul>
+					</section>
+					<section>
+						<h1>Python packages</h1>
+						<p>pip - Pip Installs Packages</p>
+						<ul>
+							<li class="fragment">pip.exe is a terminal program for installing packages (also removing)</li>
+							<li class="fragment">comes installed with python</li>
+							<li class="fragment">connects to pypi, downloads packages, installs on your PC</li>
+						</ul>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							# Python packages
+							pip - Pip Installs Packages
+							```Console
+							> pip install numpy
+							...
+							Collecting numpy
+							Using cached https://files.pythonhosted.org/packages/34/40/c6eae19892551ff91bdb15f884fef2d42d6f58da55ab18fa540851b48a32/numpy-1.17.4-cp37-cp37m-win_amd64.whl
+							Installing collected packages: numpy
+							Successfully installed numpy-1.17.4
+
+							>
+							```
+						</script>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							# numpy
+							NumPy is the fundamental package for scientific computing with Python.
+							* a powerful N-dimensional array object
+							* sophisticated (broadcasting) functions
+							* tools for integrating C/C++ and Fortran code
+							* useful linear algebra, Fourier transform, and random number capabilities
+							* https://numpy.org/
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```python
+							import numpy as np
+							a = np.arange(15).reshape(3, 5)
+							print(a)
+							# array([[ 0,  1,  2,  3,  4],
+							#        [ 5,  6,  7,  8,  9],
+							#        [10, 11, 12, 13, 14]])
+							print(a.shape)
+							# (3, 5)
+							print(a[1, 3])
+							# 8
+							b = a ** 2
+							print(b)
+							# array([[  0,   1,   4,   9,  16],
+							#        [ 25,  36,  49,  64,  81],
+							#        [100, 121, 144, 169, 196]], dtype=int32)
+							```
+						</script>
+					</section>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						# Other Packages
+						* requests - making HTTP requests
+						* Matplotlib - plotting charts
+						* BeautifulSoup - parsing HTML pages
+						* pandas - working with Excel files
+						* pysftp - getting files from FTP
+					</script>
+				</section>
+				<section>
+					<h2>Now lets work!</h2>
+					<p>Find the exercises on github</p>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
