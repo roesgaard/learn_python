@@ -1,0 +1,30 @@
+Could do scripts about:
+    - more on lists - functions
+    - text is a list
+    - string split
+    - data structures
+    - datetime
+    - dictionaries
+    - classes
+    - character details
+    - tuple/sets
+    - lambda
+    - array
+    - classes
+    - try except
+    - files
+    - module/packages/pip
+    - regex
+    - working with excel
+    - break/continue
+
+More exercises:
+    - what will this code output?
+    - exercise with fixing errors
+
+Ideas:
+    - more details about lists/types without so many explanations
+        - maybe a version with more build in functions for more advanced ppl
+          more material, less explenations
+    - add a README and "where to go next"?
+    - remove markdown exercises (some people will try to run them as a .py file)
